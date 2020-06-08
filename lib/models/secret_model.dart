@@ -5,12 +5,14 @@ class Secret {
   final String name;
   final String createdAt;
   final String category;
+  final String img;
 
   Secret({
     @required this.username,
     @required this.name,
     @required this.createdAt,
     @required this.category,
+    @required this.img,
   });
 
   factory Secret.fromJson(Map<String, dynamic> json) {
@@ -19,6 +21,7 @@ class Secret {
       name: json['name'],
       createdAt: json['createdAt'],
       category: json['category'],
+      img: "assets/images/lock1.jpg",
     );
   }
 }
