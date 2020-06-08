@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'text_field_container.dart';
-import 'package:mntd_mobile/constants.dart';
+import 'package:mntd_mobile/utils/constants.dart';
 
 class RoundedPasswordField extends StatelessWidget {
   final ValueChanged<String> onChanged;
@@ -8,12 +8,9 @@ class RoundedPasswordField extends StatelessWidget {
   final TextStyle hintStyle;
   final TextStyle textStyle;
 
-  const RoundedPasswordField({
-    Key key,
-    this.onChanged,
-    this.hintStyle,
-    this.textStyle
-  }) : super(key: key);
+  const RoundedPasswordField(
+      {Key key, this.onChanged, this.hintStyle, this.textStyle})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

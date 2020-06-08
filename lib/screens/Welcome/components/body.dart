@@ -3,7 +3,7 @@ import 'package:mntd_mobile/Screens/Login/login_screen.dart';
 import 'package:mntd_mobile/Screens/Signup/signup_screen.dart';
 import 'background.dart';
 import 'package:mntd_mobile/components/rounded_button.dart';
-import 'package:mntd_mobile/constants.dart';
+import 'package:mntd_mobile/utils/constants.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Body extends StatelessWidget {
@@ -15,7 +15,7 @@ class Body extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[           
+          children: <Widget>[
             SizedBox(height: size.height * 0.05),
             SvgPicture.asset(
               "assets/icons/security2.svg",

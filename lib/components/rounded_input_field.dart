@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'text_field_container.dart';
-import 'package:mntd_mobile/constants.dart';
+import 'package:mntd_mobile/utils/constants.dart';
 
 class RoundedInputField extends StatelessWidget {
   final String hintText;
@@ -8,14 +8,14 @@ class RoundedInputField extends StatelessWidget {
   final TextStyle textStyle;
   final IconData icon;
   final ValueChanged<String> onChanged;
-  const RoundedInputField({
-    Key key,
-    this.hintText,
-    this.icon = Icons.person,
-    this.hintStyle,
-    this.onChanged,
-    this.textStyle
-  }) : super(key: key);
+  const RoundedInputField(
+      {Key key,
+      this.hintText,
+      this.icon = Icons.person,
+      this.hintStyle,
+      this.onChanged,
+      this.textStyle})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,6 @@ class RoundedInputField extends StatelessWidget {
           hintText: hintText,
           hintStyle: hintStyle,
           border: InputBorder.none,
-          
         ),
       ),
     );
