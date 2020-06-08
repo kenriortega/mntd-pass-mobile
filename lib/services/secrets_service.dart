@@ -5,6 +5,8 @@ import 'package:mntd_mobile/models/secret_model.dart';
 import 'package:mntd_mobile/utils/constants.dart';
 
 class SecretsService {
+  // TODO:username pass a parameter
+
   final String allSecretsUrl = "$BASE_URL/secrets/kalix";
 
   Future<List<Secret>> getSecrets() async {
