@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mntd_mobile/models/secret_model.dart';
+import 'package:mntd_mobile/services/secrets_service.dart';
 import 'package:mntd_mobile/utils/customIcons.dart';
 import 'package:mntd_mobile/utils/data.dart';
 import 'dart:math';
@@ -19,6 +21,7 @@ var widgetAspectRatio = cardAspectRatio * 1.2;
 
 class _HomeState extends State<Home> {
   var currentPage = images.length - 1.0;
+  final SecretsService secretsService = SecretsService();
   @override
   Widget build(BuildContext context) {
     PageController controller = PageController(initialPage: images.length - 1);
@@ -29,79 +32,96 @@ class _HomeState extends State<Home> {
     });
     return Scaffold(
       // backgroundColor: Color(0xFF2d3447),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 12.0, right: 12.0, top: 30.0, bottom: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: FutureBuilder(
+        future: secretsService.getSecrets(),
+        builder: (BuildContext context, AsyncSnapshot<List<Secret>> snapshot) {
+          if (snapshot.hasData) {
+            List<Secret> secrets = snapshot.data;
+
+            return SingleChildScrollView(
+              child: Column(
                 children: <Widget>[
-                  IconButton(
-                      icon: Icon(
-                        CustomIcons.menu,
-                        color: Colors.white,
-                        size: 30.0,
-                      ),
-                      onPressed: () {}),
-                  IconButton(
-                      icon: Icon(
-                        Icons.search,
-                        color: Colors.white,
-                        size: 30.0,
-                      ),
-                      onPressed: () {}),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text("Secrets",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 46,
-                          fontFamily: "Calibre-Semibold",
-                          letterSpacing: 1.0)),
-                  // IconButton(icon: Icon(CustomIcons.option,size: 12.0,color: Colors.white,), onPressed: (){})
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 15.0,
-                  ),
-                  Text(
-                    "4 Secrets",
-                    style: TextStyle(
-                      color: Colors.blueAccent,
+                  // menu y search actions
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 12.0, right: 12.0, top: 30.0, bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        IconButton(
+                            icon: Icon(
+                              CustomIcons.menu,
+                              color: Colors.white,
+                              size: 30.0,
+                            ),
+                            onPressed: () {}),
+                        IconButton(
+                            icon: Icon(
+                              Icons.search,
+                              color: Colors.white,
+                              size: 30.0,
+                            ),
+                            onPressed: () {}),
+                      ],
                     ),
+                  ),
+                  // SecretsPageScreen name
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text("Secrets",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 46,
+                                fontFamily: "Calibre-Semibold",
+                                letterSpacing: 1.0)),
+                        // IconButton(icon: Icon(CustomIcons.option,size: 12.0,color: Colors.white,), onPressed: (){})
+                      ],
+                    ),
+                  ),
+                  // text when will be show total of secrets by username
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 15.0,
+                        ),
+                        Text(
+                          "${secrets.length} Secrets",
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  // Stack of CardViews for a secrets by username
+                  Stack(
+                    children: <Widget>[
+                      CardScrollWidget(
+                        secrets: secrets,
+                        currentPage: currentPage,
+                      ),
+                      Positioned.fill(
+                          child: PageView.builder(
+                        itemCount: secrets.length,
+                        controller: controller,
+                        reverse: true,
+                        itemBuilder: (context, index) {
+                          return Container();
+                        },
+                      ))
+                    ],
                   )
                 ],
               ),
-            ),
-            Stack(
-              children: <Widget>[
-                CardScrollWidget(currentPage),
-                Positioned.fill(
-                    child: PageView.builder(
-                  itemCount: images.length,
-                  controller: controller,
-                  reverse: true,
-                  itemBuilder: (context, index) {
-                    return Container();
-                  },
-                ))
-              ],
-            )
-          ],
-        ),
+            );
+          }
+          return Center(child: CircularProgressIndicator());
+        },
       ),
     );
   }
@@ -109,10 +129,11 @@ class _HomeState extends State<Home> {
 
 class CardScrollWidget extends StatelessWidget {
   final currentPage;
+  final List<Secret> secrets;
   final padding = 20.0;
   final verticalInset = 20.0;
 
-  CardScrollWidget(this.currentPage);
+  CardScrollWidget({@required this.currentPage, @required this.secrets});
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +154,7 @@ class CardScrollWidget extends StatelessWidget {
 
         List<Widget> cardList = new List();
 
-        for (var i = 0; i < images.length; i++) {
+        for (var i = 0; i < secrets.length; i++) {
           var delta = i - currentPage;
           bool isOnRight = delta > 0;
 
@@ -162,7 +183,7 @@ class CardScrollWidget extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: <Widget>[
-                      Image.asset(images[i], fit: BoxFit.cover),
+                      Image.asset(secrets[i].img, fit: BoxFit.cover),
                       Align(
                         alignment: Alignment.bottomLeft,
                         child: Column(
@@ -172,7 +193,7 @@ class CardScrollWidget extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 16.0, vertical: 8.0),
-                              child: Text(title[i],
+                              child: Text("${secrets[i].name}",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 25.0,
@@ -203,6 +224,7 @@ class CardScrollWidget extends StatelessWidget {
               ),
             ),
           );
+
           cardList.add(cardItem);
         }
         return Stack(
