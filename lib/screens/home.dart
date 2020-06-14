@@ -41,7 +41,7 @@ class _HomeState extends State<Home> {
             return SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  // menu y search actions
+                  // menu & search actions
                   Padding(
                     padding: const EdgeInsets.only(
                         left: 12.0, right: 12.0, top: 30.0, bottom: 8.0),
@@ -81,7 +81,7 @@ class _HomeState extends State<Home> {
                       ],
                     ),
                   ),
-                  // text when will be show total of secrets by username
+                  // text showing total of secrets by username
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
                     child: Row(
@@ -98,7 +98,7 @@ class _HomeState extends State<Home> {
                       ],
                     ),
                   ),
-                  // Stack of CardViews for a secrets by username
+                  // Stack of CardViews for secrets by username
                   Stack(
                     children: <Widget>[
                       CardScrollWidget(
