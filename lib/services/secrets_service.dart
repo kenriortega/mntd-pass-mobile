@@ -5,12 +5,11 @@ import 'package:mntd_mobile/models/secret_model.dart';
 import 'package:mntd_mobile/utils/constants.dart';
 
 class SecretsService {
-  // TODO:username pass a parameter
 
-  final String allSecretsUrl = "$BASE_URL/secrets/kalix";
+  final String allSecretsUrl = "$BASE_URL/secrets";
 
-  Future<List<Secret>> getSecrets() async {
-    var res = await http.get(allSecretsUrl);
+  Future<List<Secret>> getSecrets(String username) async {
+    var res = await http.get("$allSecretsUrl/$username");
 
     if (res.statusCode == 200) {
       var jsonResponse = jsonDecode(res.body);
