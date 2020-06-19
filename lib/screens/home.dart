@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       // backgroundColor: Color(0xFF2d3447),
       body: FutureBuilder(
-        future: secretsService.getSecrets(),
+        future: secretsService.getSecrets(username: 'kalix'),
         builder: (BuildContext context, AsyncSnapshot<List<Secret>> snapshot) {
           if (snapshot.hasData) {
             List<Secret> secrets = snapshot.data;
