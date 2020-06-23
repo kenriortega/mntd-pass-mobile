@@ -10,8 +10,7 @@ class Home extends StatefulWidget {
     return MaterialPageRoute(builder: (cotext) => Home());
   }
 
-  Home({Key key}) : super(key: key); 
-
+  Home({Key key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -21,28 +20,25 @@ var cardAspectRatio = 12.0 / 16.0;
 var widgetAspectRatio = cardAspectRatio * 1.2;
 
 class _HomeState extends State<Home> {
-
   //Search state
   TextEditingController _searchController = new TextEditingController();
-    bool _isSearching = false;
+  bool _isSearching = false;
 
-     void searching(){
+  void searching() {}
 
-      }
-
-      void onSearchCancel(){
+  void onSearchCancel() {
     setState(() {
       _isSearching = false;
       _searchController.text = "";
     });
   }
 
-    void startSearching(){
-      setState(() {
-        _isSearching = true;
-        print(_isSearching);
-      });
-    }
+  void startSearching() {
+    setState(() {
+      _isSearching = true;
+      print(_isSearching);
+    });
+  }
   //End Search state
 
   var currentPage = images.length - 1.0;
@@ -59,7 +55,6 @@ class _HomeState extends State<Home> {
       // backgroundColor: Color(0xFF2d3447),
       body: FutureBuilder(
         future: secretsService.getSecrets('kalix'),
-
         builder: (BuildContext context, AsyncSnapshot<List<Secret>> snapshot) {
           if (snapshot.hasData) {
             List<Secret> secrets = snapshot.data;
@@ -93,7 +88,9 @@ class _HomeState extends State<Home> {
                   ),
 
                   // menu & search actions
-                  _isSearching ? Search(onSearchCancel, searching, _searchController) : NavBar(startSearching),                
+                  _isSearching
+                      ? Search(onSearchCancel, searching, _searchController)
+                      : NavBar(startSearching),
 
                   // SecretsPageScreen name
                   Padding(
@@ -109,7 +106,6 @@ class _HomeState extends State<Home> {
                                 letterSpacing: 1.0)),
                         // IconButton(icon: Icon(CustomIcons.option,size: 12.0,color: Colors.white,), onPressed: (){})
                       ],
-
                     ),
                   ),
                   // text when will be show total of secrets by username
@@ -130,8 +126,6 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   // Stack of CardViews for a secrets by username
-                    ),
-                  ),
                   // text showing total of secrets by username
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
@@ -178,82 +172,67 @@ class _HomeState extends State<Home> {
   }
 }
 
-Widget NavBar(Function startSearching){
-
-    return    Padding(
-                    padding: const EdgeInsets.only(
-                        left: 12.0, right: 12.0, top: 30.0, bottom: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        IconButton(
-                            icon: Icon(
-                              CustomIcons.menu,
-                              color: Colors.white,
-                              size: 30.0,
-                            ),
-                            onPressed: () {}),
-                        IconButton(
-                            icon: Icon(
-                              Icons.search,
-                              color: Colors.white,
-                              size: 30.0,
-                            ),
-                            onPressed: () {
-                              startSearching();
-                            }),
-                      ],
-                    ),
-                  );
-  
+Widget NavBar(Function startSearching) {
+  return Padding(
+    padding:
+        const EdgeInsets.only(left: 12.0, right: 12.0, top: 30.0, bottom: 8.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        IconButton(
+            icon: Icon(
+              CustomIcons.menu,
+              color: Colors.white,
+              size: 30.0,
+            ),
+            onPressed: () {}),
+        IconButton(
+            icon: Icon(
+              Icons.search,
+              color: Colors.white,
+              size: 30.0,
+            ),
+            onPressed: () {
+              startSearching();
+            }),
+      ],
+    ),
+  );
 }
 
-
-
-
-Widget Search(Function cancelSearch, Function searching,TextEditingController searchController){
-    
-    return  AppBar(
-          shape: RoundedRectangleBorder(
-                 borderRadius: BorderRadius.circular(19.0)
-           ),
-
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios), onPressed: () {
-              cancelSearch();
-            }
-            ),
-
-           title: Padding(
-             padding: const EdgeInsets.only(bottom:10),
-             child: Container(
-               child: TextField(
-               controller: searchController,
-               onEditingComplete: (){
-                 searching();
-               },
-
-              style: new TextStyle(color:Colors.white),
-              cursorColor: Colors.white,
-              autofocus: true,
-              
-              decoration: InputDecoration(
-                hintText: "Search..." ,
-                focusColor: Colors.red,
-
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),),
-
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white)
-
-                )
+Widget Search(Function cancelSearch, Function searching,
+    TextEditingController searchController) {
+  return AppBar(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(19.0)),
+    automaticallyImplyLeading: false,
+    leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios),
+        onPressed: () {
+          cancelSearch();
+        }),
+    title: Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Container(
+        child: TextField(
+          controller: searchController,
+          onEditingComplete: () {
+            searching();
+          },
+          style: new TextStyle(color: Colors.white),
+          cursorColor: Colors.white,
+          autofocus: true,
+          decoration: InputDecoration(
+              hintText: "Search...",
+              focusColor: Colors.red,
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
               ),
-            ),
-           ),
-         ), 
-        );
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white))),
+        ),
+      ),
+    ),
+  );
 }
 
 class CardScrollWidget extends StatelessWidget {
