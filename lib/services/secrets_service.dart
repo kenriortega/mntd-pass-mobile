@@ -6,10 +6,19 @@ import 'package:mntd_mobile/utils/constants.dart';
 
 class SecretsService {
 
+
   final String allSecretsUrl = "$BASE_URL/secrets";
 
   Future<List<Secret>> getSecrets(String username) async {
     var res = await http.get("$allSecretsUrl/$username");
+
+  // TODO:username pass a parameter
+
+  final String allSecretsUrl = "$BASE_URL/secrets/mario";
+
+  Future<List<Secret>> getSecrets() async {
+    var res = await http.get(allSecretsUrl);
+
 
     if (res.statusCode == 200) {
       var jsonResponse = jsonDecode(res.body);

@@ -27,7 +27,6 @@ class Secret {
       img: "assets/images/lock1.jpg",
     );
   }
-
   Map toJson() => {
         'username': username,
         'name': name,
