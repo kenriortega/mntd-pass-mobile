@@ -12,6 +12,7 @@ class Home extends StatefulWidget {
 
   Home({Key key}) : super(key: key); 
 
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -20,6 +21,7 @@ var cardAspectRatio = 12.0 / 16.0;
 var widgetAspectRatio = cardAspectRatio * 1.2;
 
 class _HomeState extends State<Home> {
+
   //Search state
   TextEditingController _searchController = new TextEditingController();
     bool _isSearching = false;
@@ -56,7 +58,8 @@ class _HomeState extends State<Home> {
     return Scaffold(
       // backgroundColor: Color(0xFF2d3447),
       body: FutureBuilder(
-        future: secretsService.getSecrets(),
+        future: secretsService.getSecrets('kalix'),
+
         builder: (BuildContext context, AsyncSnapshot<List<Secret>> snapshot) {
           if (snapshot.hasData) {
             List<Secret> secrets = snapshot.data;
@@ -64,8 +67,34 @@ class _HomeState extends State<Home> {
             return SingleChildScrollView(
               child: Column(
                 children: <Widget>[
+                  // menu y search actions
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 12.0, right: 12.0, top: 30.0, bottom: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        IconButton(
+                            icon: Icon(
+                              CustomIcons.menu,
+                              color: Colors.white,
+                              size: 30.0,
+                            ),
+                            onPressed: () {}),
+                        IconButton(
+                            icon: Icon(
+                              Icons.search,
+                              color: Colors.white,
+                              size: 30.0,
+                            ),
+                            onPressed: () {}),
+                      ],
+                    ),
+                  ),
+
                   // menu & search actions
                   _isSearching ? Search(onSearchCancel, searching, _searchController) : NavBar(startSearching),                
+
                   // SecretsPageScreen name
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -80,6 +109,27 @@ class _HomeState extends State<Home> {
                                 letterSpacing: 1.0)),
                         // IconButton(icon: Icon(CustomIcons.option,size: 12.0,color: Colors.white,), onPressed: (){})
                       ],
+
+                    ),
+                  ),
+                  // text when will be show total of secrets by username
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 15.0,
+                        ),
+                        Text(
+                          "${secrets.length} Secrets",
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  // Stack of CardViews for a secrets by username
                     ),
                   ),
                   // text showing total of secrets by username
