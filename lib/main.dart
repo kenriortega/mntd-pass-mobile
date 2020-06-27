@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mntd_mobile/providers/SecretCardProvider.dart';
+import 'package:mntd_mobile/providers/ThemeSettingProvider.dart';
+import 'package:mntd_mobile/utils/themes/apptheme.dart';
 import 'package:provider/provider.dart';
 import 'screens/splashScreen.dart';
 
@@ -10,6 +12,9 @@ void main() {
         ChangeNotifierProvider(
           create: (_) => SecretCardProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => ThemeSettingProvider(),
+        ),
       ],
       child: MntdSecrets(),
     ),
@@ -19,14 +24,16 @@ void main() {
 class MntdSecrets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Todas sus apliaciones deben de estar dentro de Material App para poder
-    // hacer uso de las facilidades de Material Design puede omitirce esto pero
-    // no podran hacer uso de estos widgets de material.dart
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(), //  Tema Claro
-//      theme: ThemeData.dark(), // Tema Oscuro
-      home: SplashScreen(),
+    return Consumer<ThemeSettingProvider>(
+      builder: (context, appState, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: appState.isDarkModeOn ? ThemeMode.light : ThemeMode.dark,
+          home: SplashScreen(),
+        );
+      },
     );
   }
 }
