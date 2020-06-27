@@ -64,40 +64,43 @@ class CardScrollWidget extends StatelessWidget {
                       Image.asset(secrets[i].img, fit: BoxFit.cover),
                       Align(
                         alignment: Alignment.bottomLeft,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 8.0),
-                              child: Text("${secrets[i].name}",
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 25.0,
-                                      fontFamily: "SF-Pro-Text-Regular")),
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 12.0, bottom: 12.0),
-                              child: Container(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 22.0, vertical: 6.0),
-                                decoration: BoxDecoration(
-                                    color: GFColors.kPrimaryButtomColor,
-                                    borderRadius: BorderRadius.circular(20.0)),
-                                child: Text(
-                                  "Get Secret",
-                                  style: TextStyle(
-                                      color: GFColors.kPrimary700Color,
-                                      fontWeight: FontWeight.w600),
-                                ),
+                                    horizontal: 16.0, vertical: 8.0),
+                                child: Text("${secrets[i].name}",
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 25.0,
+                                        fontFamily: "SF-Pro-Text-Regular")),
                               ),
-                            )
-                          ],
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 12.0, bottom: 12.0),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 22.0, vertical: 6.0),
+                                  decoration: BoxDecoration(
+                                      color: GFColors.kPrimaryButtomColor,
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  child: Text(
+                                    "Get Secret",
+                                    style: TextStyle(
+                                        color: GFColors.kPrimary700Color,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       )
                     ],

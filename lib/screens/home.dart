@@ -88,7 +88,7 @@ class _HomeState extends State<Home> {
                 : navBar(startSearching, darkMode),
             // SecretsPageScreen name text when will be show total of secrets by username
             SizedBox(
-              height: 20,
+              height: 15,
             ),
 
             Padding(
