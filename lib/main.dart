@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:mntd_mobile/providers/SecretCardProvider.dart';
+import 'package:provider/provider.dart';
 import 'screens/splashScreen.dart';
+
 void main() {
-  runApp(MntdSecrets());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => SecretCardProvider(),
+        ),
+      ],
+      child: MntdSecrets(),
+    ),
+  );
 }
 
 class MntdSecrets extends StatelessWidget {
