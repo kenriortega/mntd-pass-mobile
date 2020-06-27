@@ -1,8 +1,3 @@
-import 'package:flutter/material.dart';
-
-const kPrimaryColor = Color(0xFF6F35A5);
-const kPrimaryLightColor = Color(0xFFF1E6FF);
-const kSecondaryColor = Colors.green;
 const kDefaultPadding = 8.0;
 const kCardAspectRatio = 12.0 / 16.0;
 const kWidgetAspectRatio = kCardAspectRatio * 1.2;
