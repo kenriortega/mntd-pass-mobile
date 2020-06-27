@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mntd_mobile/components/menu_and_search.dart';
 import 'package:mntd_mobile/models/secret_model.dart';
 import 'package:mntd_mobile/providers/SecretCardProvider.dart';
+import 'package:mntd_mobile/providers/ThemeSettingProvider.dart';
 import 'package:mntd_mobile/services/secrets_service.dart';
-import 'package:mntd_mobile/utils/data.dart';
+import 'package:mntd_mobile/utils/themes/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'SecretsList/components/card_secret.dart';
 import 'SecretsList/components/category_secrets_list.dart';
@@ -24,7 +26,31 @@ class _HomeState extends State<Home> {
   //Search state
   TextEditingController _searchController = new TextEditingController();
   bool _isSearching = false;
+  // Secrets state
   List<Secret> secrets = [];
+  double currentPage = .0;
+  final SecretsService secretsService = SecretsService();
+  var darkMode = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        final dm = prefs.getBool('darkmode');
+        if (dm != null) {
+          setState(() {
+            darkMode = dm;
+          });
+
+          Provider.of<ThemeSettingProvider>(context, listen: false)
+              .updateTheme(dm);
+        }
+      },
+    );
+  }
+
   void searching() {}
 
   void onSearchCancel() {
@@ -42,29 +68,57 @@ class _HomeState extends State<Home> {
   }
   //End Search state
 
-  var currentPage = images.length - 1.0;
-  final SecretsService secretsService = SecretsService();
   @override
   Widget build(BuildContext context) {
     Provider.of<SecretCardProvider>(context).initialState();
-    PageController controller = PageController(initialPage: images.length - 1);
+    PageController controller =
+        PageController(initialPage: secrets.reversed.length);
     controller.addListener(() {
       setState(() {
         currentPage = controller.page;
       });
     });
     return Scaffold(
-      // backgroundColor: Color(0xFF2d3447),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             // menu & search actions
             _isSearching
-                ? search(onSearchCancel, searching, _searchController)
-                : navBar(startSearching),
+                ? search(onSearchCancel, searching, _searchController, darkMode)
+                : navBar(startSearching, darkMode),
             // SecretsPageScreen name text when will be show total of secrets by username
             SizedBox(
               height: 20,
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                      child: Icon(
+                    Icons.lightbulb_outline,
+                    color: darkMode ? GFColors.DARK : GFColors.LIGHT,
+                  )),
+                  Switch(
+                    activeColor: Theme.of(context).focusColor,
+                    value: darkMode,
+                    onChanged: (value) {
+                      setState(() {
+                        darkMode = value;
+                      });
+
+                      Provider.of<ThemeSettingProvider>(context, listen: false)
+                          .updateTheme(darkMode);
+
+                      SharedPreferences.getInstance().then((prefs) {
+                        prefs.setBool('darkmode', darkMode);
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
             // Validate if secretCardProvider have data.
             (Provider.of<SecretCardProvider>(context).getSecretsdLength() > 0
@@ -80,13 +134,23 @@ class _HomeState extends State<Home> {
                                 Text(
                                   "Secrets #${secrets.getSecretsdLength()}",
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: darkMode
+                                          ? GFColors.DARK
+                                          : GFColors.LIGHT,
                                       fontSize: 46,
                                       fontFamily: "Calibre-Semibold",
                                       letterSpacing: 1.0),
                                 ),
-                                Icon(Icons.storage)
-                                // IconButton(icon: Icon(CustomIcons.option,size: 12.0,color: Colors.white,), onPressed: (){})
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.add_box,
+                                    size: 12.0,
+                                    color: darkMode
+                                        ? GFColors.DARK
+                                        : GFColors.LIGHT,
+                                  ),
+                                  onPressed: () {},
+                                ),
                               ],
                             ),
                           ),
@@ -94,7 +158,9 @@ class _HomeState extends State<Home> {
                             height: 20,
                           ),
                           // List of categories
-                          Categorylist(),
+                          Categorylist(
+                            darkMode: darkMode,
+                          ),
                           SizedBox(
                             height: 20,
                           ),
@@ -151,14 +217,24 @@ class _HomeState extends State<Home> {
                                             Text(
                                               "Secrets #${secrets.length}",
                                               style: TextStyle(
-                                                  color: Colors.white,
+                                                  color: darkMode
+                                                      ? GFColors.DARK
+                                                      : GFColors.LIGHT,
                                                   fontSize: 46,
                                                   fontFamily:
                                                       "Calibre-Semibold",
                                                   letterSpacing: 1.0),
                                             ),
-                                            Icon(Icons.sync)
-                                            // IconButton(icon: Icon(CustomIcons.option,size: 12.0,color: Colors.white,), onPressed: (){})
+                                            IconButton(
+                                              icon: Icon(
+                                                Icons.add_box,
+                                                size: 12.0,
+                                                color: darkMode
+                                                    ? GFColors.DARK
+                                                    : GFColors.LIGHT,
+                                              ),
+                                              onPressed: () {},
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -166,7 +242,9 @@ class _HomeState extends State<Home> {
                                         height: 20,
                                       ),
                                       // List of categories
-                                      Categorylist(),
+                                      Categorylist(
+                                        darkMode: darkMode,
+                                      ),
                                       SizedBox(
                                         height: 20,
                                       ),
@@ -195,7 +273,7 @@ class _HomeState extends State<Home> {
                               return Center(child: CircularProgressIndicator());
                             },
                           ),
-                        )
+                        ),
                       ],
                     ),
                   )),

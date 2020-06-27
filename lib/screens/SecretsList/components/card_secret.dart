@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mntd_mobile/models/secret_model.dart';
 import 'package:mntd_mobile/utils/constants.dart';
+import 'package:mntd_mobile/utils/themes/colors.dart';
 
 class CardScrollWidget extends StatelessWidget {
   final currentPage;
@@ -51,7 +52,7 @@ class CardScrollWidget extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(color: Colors.white, boxShadow: [
                   BoxShadow(
-                      color: Colors.black12,
+                      color: GFColors.kPrimary700Color,
                       offset: Offset(3.0, 6.0),
                       blurRadius: 10.0)
                 ]),
@@ -86,12 +87,14 @@ class CardScrollWidget extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 22.0, vertical: 6.0),
                                 decoration: BoxDecoration(
-                                    color: Colors.green,
+                                    color: GFColors.kPrimaryButtomColor,
                                     borderRadius: BorderRadius.circular(20.0)),
-                                child: Text("Get Secret",
-                                    style: TextStyle(
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.w600)),
+                                child: Text(
+                                  "Get Secret",
+                                  style: TextStyle(
+                                      color: GFColors.kPrimary700Color,
+                                      fontWeight: FontWeight.w600),
+                                ),
                               ),
                             )
                           ],

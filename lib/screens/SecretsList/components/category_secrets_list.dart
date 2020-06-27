@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mntd_mobile/utils/constants.dart';
+import 'package:mntd_mobile/utils/themes/colors.dart';
 
 class Categorylist extends StatefulWidget {
-  Categorylist({Key key}) : super(key: key);
+  final bool darkMode;
+  Categorylist({Key key, this.darkMode}) : super(key: key);
 
   @override
   _CategorylistState createState() => _CategorylistState();
@@ -40,7 +42,7 @@ class _CategorylistState extends State<Categorylist> {
               style: Theme.of(context).textTheme.headline5.copyWith(
                   fontWeight: FontWeight.w600,
                   color: index == selectedCategory
-                      ? Colors.white
+                      ? widget.darkMode ? GFColors.DARK : GFColors.LIGHT
                       : Colors.grey.withOpacity(0.4)),
             ),
             Container(
@@ -50,8 +52,8 @@ class _CategorylistState extends State<Categorylist> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: index == selectedCategory
-                    ? kSecondaryColor
-                    : Colors.transparent,
+                    ? GFColors.kPrimaryButtomColor
+                    : GFColors.TRANSPARENT,
               ),
             ),
           ],
