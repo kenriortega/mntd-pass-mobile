@@ -15,6 +15,7 @@ class SecretsService {
       List<dynamic> data = jsonResponse['data'];
       List<Secret> secrets =
           data.map((dynamic item) => Secret.fromJson(item)).toList();
+
       return secrets;
     } else {
       throw 'Can`t get secrets';
