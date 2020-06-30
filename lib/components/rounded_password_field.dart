@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mntd_mobile/utils/themes/colors.dart';
 import 'text_field_container.dart';
 import 'package:mntd_mobile/utils/constants.dart';
 
@@ -18,7 +19,7 @@ class RoundedPasswordField extends StatelessWidget {
       child: TextField(
         obscureText: true,
         onChanged: onChanged,
-        cursorColor: kPrimaryColor,
+        cursorColor: GFColors.kPrimary800Color,
         style: textStyle,
         decoration: InputDecoration(
           hintText: "Password",

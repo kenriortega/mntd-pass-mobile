@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mntd_mobile/Screens/Login/login_screen.dart';
 import 'package:mntd_mobile/Screens/Signup/signup_screen.dart';
+import 'package:mntd_mobile/utils/themes/colors.dart';
 import 'background.dart';
 import 'package:mntd_mobile/components/rounded_button.dart';
-import 'package:mntd_mobile/utils/constants.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Body extends StatelessWidget {
@@ -38,7 +38,7 @@ class Body extends StatelessWidget {
             ),
             RoundedButton(
               text: "SIGN UP",
-              color: kPrimaryLightColor,
+              color: GFColors.kPrimaryLightColor,
               textColor: Colors.black,
               press: () {
                 Navigator.push(

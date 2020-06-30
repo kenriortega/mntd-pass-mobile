@@ -21,6 +21,13 @@ class SecretCardProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  addSecrets(List<Secret> _secrets) {
+    secretsCards = _secrets;
+
+    updateSharePreferences();
+    notifyListeners();
+  }
+
   removeSecret(Secret _secret) {
     secretsCards.removeWhere((secret) => secret.name == _secret.name);
     updateSharePreferences();
