@@ -8,6 +8,7 @@ import 'package:mntd_mobile/utils/themes/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'SecretsList/add_secrets.dart';
 import 'SecretsList/components/card_secret.dart';
 import 'SecretsList/components/category_secrets_list.dart';
 
@@ -149,7 +150,16 @@ class _HomeState extends State<Home> {
                                         ? GFColors.DARK
                                         : GFColors.LIGHT,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AddSecretPage(
+                                          darkmode: darkMode,
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ],
                             ),
