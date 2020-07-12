@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mntd_mobile/models/secret_model.dart';
 import 'package:mntd_mobile/providers/SecretCardProvider.dart';
+import 'package:mntd_mobile/services/secrets_service.dart';
 import 'package:mntd_mobile/utils/constants.dart';
 import 'package:mntd_mobile/utils/themes/colors.dart';
 import 'package:provider/provider.dart';
@@ -14,19 +14,19 @@ class AddSecretPage extends StatefulWidget {
 }
 
 class _AddSecretPageState extends State<AddSecretPage> {
+  SecretsService secretsService = SecretsService();
+
   TextEditingController nameController = new TextEditingController();
   TextEditingController valueController = new TextEditingController();
   TextEditingController categoryController = new TextEditingController();
-  String dropdownValue = 'personal';
-  void addSecret() {
-    Secret newSecret = Secret(
-      username: USER_TEST,
-      name: nameController.text,
-      value: valueController.text,
-      createdAt: null,
-      category: dropdownValue,
-      img: getImagenByCategory(dropdownValue),
-    );
+  String categoryDropdownValue = 'personal';
+  void addSecret() async {
+    var newSecret = await secretsService.postSecret(
+        USER_TEST,
+        nameController.text,
+        valueController.text,
+        categoryDropdownValue,
+        getImagenByCategory(categoryDropdownValue));
     Provider.of<SecretCardProvider>(context, listen: false)
         .addSecret(newSecret);
     Navigator.of(context).pop(true);
@@ -137,7 +137,7 @@ class _AddSecretPageState extends State<AddSecretPage> {
                         width: kDefaultPadding / 2,
                       ),
                       DropdownButton<String>(
-                        value: dropdownValue,
+                        value: categoryDropdownValue,
                         icon: Icon(Icons.arrow_downward),
                         iconSize: 24,
                         elevation: 16,
@@ -147,7 +147,7 @@ class _AddSecretPageState extends State<AddSecretPage> {
                         ),
                         onChanged: (String newValue) {
                           setState(() {
-                            dropdownValue = newValue;
+                            categoryDropdownValue = newValue;
                           });
                         },
                         items: <String>[
