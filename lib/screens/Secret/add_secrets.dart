@@ -17,14 +17,15 @@ class _AddSecretPageState extends State<AddSecretPage> {
   TextEditingController nameController = new TextEditingController();
   TextEditingController valueController = new TextEditingController();
   TextEditingController categoryController = new TextEditingController();
+  String dropdownValue = 'personal';
   void addSecret() {
     Secret newSecret = Secret(
       username: USER_TEST,
       name: nameController.text,
       value: valueController.text,
       createdAt: null,
-      category: categoryController.text,
-      img: null,
+      category: dropdownValue,
+      img: getImagenByCategory(dropdownValue),
     );
     Provider.of<SecretCardProvider>(context, listen: false)
         .addSecret(newSecret);
@@ -123,26 +124,53 @@ class _AddSecretPageState extends State<AddSecretPage> {
                 ),
                 Container(
                   padding: EdgeInsets.all(15.0),
-                  decoration: BoxDecoration(
-                    color: widget.darkmode ? GFColors.DARK : GFColors.LIGHT,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextField(
-                    controller: categoryController,
-                    style: TextStyle(
-                      color: widget.darkmode ? GFColors.LIGHT : GFColors.DARK,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Secret category',
-                      hintStyle: TextStyle(
-                        color: widget.darkmode
-                            ? GFColors.LIGHT
-                            : GFColors.kPrimary400Color,
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        "Select category",
+                        style: TextStyle(
+                          color:
+                              widget.darkmode ? GFColors.DARK : GFColors.LIGHT,
+                        ),
                       ),
-                    ),
+                      SizedBox(
+                        width: kDefaultPadding / 2,
+                      ),
+                      DropdownButton<String>(
+                        value: dropdownValue,
+                        icon: Icon(Icons.arrow_downward),
+                        iconSize: 24,
+                        elevation: 16,
+                        style: TextStyle(
+                          color:
+                              widget.darkmode ? GFColors.DARK : GFColors.LIGHT,
+                        ),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            dropdownValue = newValue;
+                          });
+                        },
+                        items: <String>[
+                          'personal',
+                          'payments',
+                          'services',
+                          'socials',
+                          'others'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: TextStyle(
+                                color: widget.darkmode
+                                    ? GFColors.DARK
+                                    : GFColors.LIGHT,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(
@@ -153,14 +181,14 @@ class _AddSecretPageState extends State<AddSecretPage> {
                   elevation: 0,
                   minWidth: double.infinity,
                   padding: EdgeInsets.all(15.0),
-                  color: Colors.blueAccent,
+                  color: widget.darkmode ? GFColors.DARK : GFColors.LIGHT,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
                     'Add',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: widget.darkmode ? GFColors.LIGHT : GFColors.DARK,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
